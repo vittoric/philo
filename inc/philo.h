@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:05:15 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/20 17:42:25 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:17:29 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ long int    ph_atoi(const char *str);
 int         ft_strlen(char *str);
 
 //core functions
-int start_sim(t_data *pdata);
-void init_philo(t_data *data);
+int simulation(t_data *pdata);
+int philo_init(t_data *pdata);
+
+//time func's 
+size_t calc_time(void);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 11:57:26 by vcodrean          #+#    #+#              #
-#    Updated: 2023/05/18 17:07:28 by vcodrean         ###   ########.fr        #
+#    Updated: 2023/05/22 14:53:26 by vcodrean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address  
 RM = rm -f
 
-SRCS = src/philo.c src/utils.c
+SRCS = src/philo.c src/utils.c src/time_utils.c
 INCS = inc/
  
 OBJS = $(SRCS:.c=.o)

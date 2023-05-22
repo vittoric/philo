@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 13:04:08 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/18 16:50:19 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:57:00 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,13 @@ long int ph_atoi(const char *str)
     if (nbr > 2147483647)
         return(-1);
     return(nbr);    
+}
+int ft_strlen(char *str)
+{
+    int i;
+
+    i = 0;
+    while(str[i])
+        i++;
+    return(i);
 }

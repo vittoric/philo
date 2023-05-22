@@ -6,26 +6,17 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:58:26 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/20 18:07:52 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:20:13 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int ft_strlen(char *str)
-{
-    int i;
-
-    i = 0;
-    while(str[i])
-        i++;
-    return(i);
-}
-
 /*used to check whether the arguments entered on the command 
 line are valid before assigning them to the corresponding 
 variables in the t_data structure. Its main purpose is to check 
 that the arguments are positive integers.*/
+
 int    check_arg(int ac, char **av)
 {
     int num;
@@ -59,60 +50,79 @@ int parse_params(int ac, char **av, t_data *pdata)
         pdata->time_to_eat = ph_atoi(av[3]);
         pdata->time_to_sleep = ph_atoi(av[4]);
         if(av[5])
-            pdata->meals = ph_atoi((av[5]));
-        /*else
-            pdata->meals = -1;*/
+            pdata->philo_meals= ph_atoi((av[5]));
     }
     else
         return(1);
-    if(pdata->num_of_philo <= 1 || pdata->time_to_die <= 0 || pdata->meals <= 0 \
-        || pdata->time_to_eat <= 0 || pdata->time_to_sleep <= 0)
+    if((pdata->num_of_philo <= 0 || pdata->num_of_philo > 200) || \
+        pdata->time_to_die < 60 ||  pdata->time_to_eat <= 60 || \
+        pdata->time_to_sleep < 60)
             return(1);
     if(!av[5])
-        pdata->meals = -1;
+        pdata->philo_meals = -1;
     return(0);
 }
 
-void init_philo(t_data *data)
+
+
+int philo_init(t_data *pdata)
 {
     int idx;
 
     idx = 0;
-    while(idx < data->num_of_philo)
+    pdata->set_ph = 0;
+    pdata->thread = malloc(sizeof(pthread_t *) * (pdata->num_of_philo));
+    if(!pdata->thread)
+        return(1);
+    pdata->philo = malloc(sizeof(t_philosopher) * pdata->num_of_philo);
+    if (!pdata->philo)
+        return(1);
+    pthread_mutex_init(&pdata->mutex_idx, NULL);
+    pthread_mutex_init(&pdata->mutex_print, NULL);
+    pthread_mutex_init(&pdata->mutex_fork, NULL);
+    while(idx < pdata->num_of_philo)
     {
-        data->philo[idx].pid = idx + 1;
-        data->philo[idx].status = 1;
-        data->philo[idx].action = 0;
-        data->philo[idx].meals_res = 0;
-        data->philo[idx].info = data;
-        //data->philo[idx].time = calc_time();
-        //data->philo[idx].last_meal = data->philo[idx].time;
-        data->fork[idx].fid = idx + 1;
-        data->fork[idx].vacant = 1;
+        pdata->philo[idx].meals = 0;
+        pdata->philo[idx].left_fork = idx - 1;
+        pdata->philo[idx].right_fork = idx;
         idx++;
     }
-}
-int start_sim(t_data *pdata)
-{
-    init_philo(pdata);
+    pdata->philo[0].left_fork = pdata->num_of_philo - 1;
     return(0);
 }
+
+
+int simulation(t_data *pdata)
+{
+    pthread_mutex_init(&pdata->mtx_last_eat, NULL);
+    pthread_mutex_init(&pdata->mtx_status, NULL);
+    pdata->status = 0,
+    pdata->idphilo = 1;
+    if (philo_init(pdata) == 1)
+        return(1);
+    printf("philo num %d\n", pdata->philo->right_fork);
+    return(0);
+}
+
+
 int main(int ac, char **av)
 {
-    t_data pdata;
+    t_data *pdata;
 
-   // pdata = malloc(sizeof(t_data));
+    pdata = malloc(sizeof(t_data));
+    if(!pdata)
+        return(0);    
     if(ac < 5 || ac > 6)
     {
         printf("Error\nBad number of argument\n");
         return(1);
     }    
-    if(parse_params(ac, av, &pdata) == 1)
+    if(parse_params(ac, av, pdata) == 1)
     {
         printf("Error\nNon valid arguments\n");
         return(1);
     }
-    if(start_sim(&pdata) != 0)
+    if(simulation(pdata) != 0)
     {
         printf("Error\nSimulation failed\n");
         return(1);
@@ -124,12 +134,12 @@ int main(int ac, char **av)
 
 
     
-    printf("Num of philo 🙇‍: %d\n", pdata.num_of_philo);
-    printf("Forks 🍴: %d\n", pdata.forks);
-    printf("Time to die 💀: %d\n", pdata.time_to_die);
-    printf("Time to eat 😋: %d\n", pdata.time_to_eat);
-    printf("Time to sleep 😴: %d\n", pdata.time_to_sleep);
-    printf("Meals 🍝: %d\n", pdata.meals);
+    printf("Num of philo 🙇‍: %d\n", pdata->num_of_philo);
+    printf("Forks 🍴: %d\n", pdata->forks);
+    printf("Time to die 💀: %d\n", pdata->time_to_die);
+    printf("Time to eat 😋: %d\n", pdata->time_to_eat);
+    printf("Time to sleep 😴: %d\n", pdata->time_to_sleep);
+    printf("Meals 🍝: %d\n", pdata->philo_meals);
     
     return(0);
 }
