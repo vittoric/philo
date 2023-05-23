@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:05:41 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/22 19:11:41 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/23 11:35:12 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_data
        int                  time_to_think;
        int                  philo_meals;
        int                  status;
-       int                  set_ph;
+       int                  set_philo;
        pthread_t            *thread;
        t_philosopher        *philo;
        pthread_mutex_t      *mutex;

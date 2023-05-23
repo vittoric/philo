@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:58:26 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/22 19:20:13 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:24:24 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int philo_init(t_data *pdata)
     int idx;
 
     idx = 0;
-    pdata->set_ph = 0;
+    pdata->set_philo = 0;
     pdata->thread = malloc(sizeof(pthread_t *) * (pdata->num_of_philo));
     if(!pdata->thread)
         return(1);
@@ -88,9 +88,61 @@ int philo_init(t_data *pdata)
         idx++;
     }
     pdata->philo[0].left_fork = pdata->num_of_philo - 1;
+
+    printf("fork %d\n", pdata->philo->left_fork);
+    
     return(0);
 }
 
+int mutex_init(t_data *pdata)
+{
+    int idx;
+
+    idx = 0;
+    while (idx < pdata->num_of_philo)
+    {
+        if(pthread_mutex_init(&pdata->mutex[idx], NULL) != 0)
+            return(1);
+        idx++;
+    }
+    return(0);
+}
+
+int init_routine(t_data *pdata)
+{
+    
+}
+
+void routine(void *d)
+{
+    t_data *data;
+    
+    data = (t_data *)d;
+    while(data->set_philo == 0)
+    {
+        usleep(10);
+    }
+    if (init_routine(data) == 1)
+        return(NULL);
+    return(NULL);
+}
+
+int thread_init(t_data *pdata)
+{
+    int idx;
+
+    idx = 0;
+    while(idx < pdata->num_of_philo)
+    {
+        pthread_mutex_lock(&pdata->mtx_last_eat);
+        pdata->philo[idx].last_meal = 0;
+        pthread_mutex_unlock(&pdata->mtx_last_eat);
+        if(pthread_create(&pdata->thread[idx], NULL, &routine, (void*)pdata) != 0)
+            return(1);
+        idx++;
+    }
+    return(0);
+}
 
 int simulation(t_data *pdata)
 {
@@ -100,7 +152,11 @@ int simulation(t_data *pdata)
     pdata->idphilo = 1;
     if (philo_init(pdata) == 1)
         return(1);
-    printf("philo num %d\n", pdata->philo->right_fork);
+    if(mutex_init(pdata) == 1)
+        return(1);
+    pdata->time_s = get_time();
+    if (thread_init(pdata) == 1)
+        return(1);
     return(0);
 }
 

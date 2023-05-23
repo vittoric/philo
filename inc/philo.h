@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:05:15 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/22 19:17:29 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:12:06 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ int         ft_strlen(char *str);
 //core functions
 int simulation(t_data *pdata);
 int philo_init(t_data *pdata);
+void routine(void *d);
+
+//mutex
+int mutex_init(t_data *pdata);
 
 //time func's 
-size_t calc_time(void);
+size_t get_time(void);
 
 #endif
