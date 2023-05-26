@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 11:58:26 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/25 16:55:45 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:29:44 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,53 @@ int check_death(t_data *pdata)
     return (0);
 }
 
+int meal_ckeack(t_data *pdata)
+{
+    int idx;
+    int num;
+
+    idx = 0;
+    num = 0;
+    if (!pdata->philo_meals)
+        return(0);
+    while (idx < pdata->num_of_philo)
+    {
+        if (pdata->philo[idx].meals >= pdata->philo_meals)
+            num++;
+        else
+            break;
+        idx++;
+    }
+    if (num >= pdata->num_of_philo)
+    {
+        pdata->begin = 2;
+        return(1);
+    }
+    return(0);
+}
+
+
+void    st_print(char *str, t_data *pdata, int n)
+{
+    long    time;
+
+    time = get_time() - pdata->time_s;
+    pthread_mutex_lock(&pdata->mutex_print);
+    if (n <= pdata->num_of_philo && meal_ckeack(pdata) == 0 && pdata->begin == 0)
+    {
+        printf("%ld   %d     %s", time, n, str);
+    }
+    pthread_mutex_unlock(&pdata->mutex_print);
+}
+
 void    take_fork(t_data *pdata, int n)
 {
+    pthread_mutex_lock(&pdata->mutex[pdata->philo[n].right_fork]);
+    st_print("Take a fork", pdata, n + 1);
+    if(pdata->num_of_philo == 1)
+        to_usleep(pdata->time_to_die + 1);
+    pthread_mutex_lock(&pdata->mutex[pdata->philo[n].left_fork]);
+    st_print("Take a fork", pdata, n + 1);
     
 }
 
@@ -149,6 +194,7 @@ void *routine(void *d)
     idx = data->idphilo - 1;    
     pthread_mutex_lock(&data->mutex_idx);
     data->idphilo++;
+    pthread_mutex_unlock(&data->mutex_idx);
     
     if(idx % 2 == 0)
         to_usleep(data->time_to_eat / 2);
@@ -160,7 +206,7 @@ void *routine(void *d)
     {
         pthread_mutex_lock(&data->mutex_fork);
         take_fork(data, idx);
-        pthread_mutex_lock(&data->mutex_fork);
+        pthread_mutex_unlock(&data->mutex_fork);
         philo_eat(data, idx);
         philo_sleep(data, idx);
         if(data->num_of_philo % 2 != 0)
@@ -224,20 +270,6 @@ int main(int ac, char **av)
     {
         printf ("Error\nSimulation failed\n");
         return (1);
-    }
-    
-
-
-
-
-
-    
-    printf("Num of philo 🙇‍: %d\n", pdata->num_of_philo);
-    printf("Forks 🍴: %d\n", pdata->forks);
-    printf("Time to die 💀: %d\n", pdata->time_to_die);
-    printf("Time to eat 😋: %d\n", pdata->time_to_eat);
-    printf("Time to sleep 😴: %d\n", pdata->time_to_sleep);
-    printf("Meals 🍝: %d\n", pdata->philo_meals);
-    
+    }    
     return(0);
 }
