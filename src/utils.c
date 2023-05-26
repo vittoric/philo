@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 13:04:08 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/25 15:31:30 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:22:37 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,27 @@ int	ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+int    check_arg(int ac, char **av)
+{
+    int num;
+    int i;
+
+    num = 1;
+    while(num < ac)
+    {
+        i = 0;
+        if(av[num][i] == '+' && (ft_strlen(av[num]) > 1))
+            i++;
+        while(av[num][i])
+        {
+            if(av[num][i] < '0' || av[num][i] > '9')
+                return(0);
+            i++;
+        }
+        num++;
+    }
+    return(1);
+    
 }

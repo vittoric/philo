@@ -6,13 +6,13 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:52:46 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/25 15:39:56 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:44:56 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-size_t	get_time(void)
+long	get_time(void)
 {
 	struct timeval	time;
 	size_t			actual_time;
