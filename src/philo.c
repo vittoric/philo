@@ -56,7 +56,7 @@ int philo_init(t_data *pdata)
     pdata->philo = malloc(sizeof(t_philosopher) * pdata->num_of_philo);
     if (!pdata->philo)
         return(1);
-        pdata->mutex = malloc(sizeof(pthread_mutex_t) * pdata->num_of_philo);
+    pdata->mutex = malloc(sizeof(pthread_mutex_t) * pdata->num_of_philo);
     if (!pdata->mutex)
         return(1);
     pthread_mutex_init(&pdata->mutex_idx, NULL);
@@ -189,16 +189,14 @@ void *routine(void *d)
     idx = data->idphilo - 1;   
     while(data->set_philo == 0)
     {
-        
-        usleep(10); printf(" %d",data->begin);
-    } 
+        usleep(10); 
+    }  
     pthread_mutex_lock(&data->mutex_idx);
     data->idphilo++;
     pthread_mutex_unlock(&data->mutex_idx);
     if(idx % 2 == 0)
-        to_usleep(data->time_to_eat / 2); 
-    
-    
+        to_usleep(data->time_to_eat / 2);
+    printf("aqui %d",data->idphilo);
     while(data->begin == 0 || check_death(data) == 0)
     {
         pthread_mutex_lock(&data->mutex_fork);
@@ -231,6 +229,60 @@ int thread_init(t_data *pdata)
     return(0);
 }
 
+void pr_philo_death(long time, int idx)
+{
+    printf("%ld   %d  is dead", time, idx);
+}
+
+void    free_philo(t_data *pdata)
+{
+    int idx;
+
+    idx = 1;
+    while(idx <= pdata->num_of_philo)
+    {
+        pthread_mutex_destroy(&pdata->mutex[idx]);
+        idx++;
+    }
+    idx = 0;
+    if (pdata->num_of_philo == 1)
+        pthread_detach(pdata->thread[idx]);
+    else
+    {
+        while(++idx <= pdata->num_of_philo)
+        {
+            pthread_detach(pdata->thread[idx]);
+           
+        }
+    }
+}
+
+void ckeck_philo(t_data *pdata)
+{
+    int idx;
+    long time;
+
+    idx = 0;
+    while(pdata->begin == 0)
+    {
+        while(idx < pdata->num_of_philo)
+        {
+            time = get_time() - pdata->time_s;
+            if ( time - pdata->philo[idx].last_meal > pdata->time_to_die || meal_ckeack(pdata) == 1)
+            {
+                if ( pdata->begin == 2)
+                     break;
+                pdata->begin = 1;
+                pr_philo_death(time, idx + 1);
+                break;
+            }
+            idx++;
+        }
+        idx = 0;
+    }
+    free_philo(pdata);
+}
+
 int simulation(t_data *pdata)
 {
     pthread_mutex_init(&pdata->mtx_last_eat, NULL);
@@ -243,8 +295,9 @@ int simulation(t_data *pdata)
         return(1);
     pdata->time_s = get_time();
     if (thread_init(pdata) == 1)
-        return(1); 
-     
+        return(1);
+    pdata->set_philo = 1;
+    ckeck_philo(pdata);     
     return(0);
 }
 
@@ -253,9 +306,9 @@ int main(int ac, char **av)
 {
     t_data *pdata;
 
-    pdata = malloc(sizeof(t_data));
+     pdata = malloc(sizeof(t_data));
     if(!pdata)
-        return(0);    
+        return(0);  
     if(ac < 5 || ac > 6)
     {
         printf("Error\nBad number of argument\n");
@@ -266,10 +319,20 @@ int main(int ac, char **av)
         printf ("Error\nNon valid arguments\n");
         return(1);
     } 
+    
     if (simulation(pdata) != 0)
     {
         printf ("Error\nSimulation failed\n");
         return (1);
     }    
+
+    printf("Num of philo 🙇‍: %d\n", pdata->num_of_philo);
+    printf("Forks 🍴: %d\n", pdata->forks);
+    printf("Time to die 💀: %d\n", pdata->time_to_die);
+    printf("Time to eat 😋: %d\n", pdata->time_to_eat);
+    printf("Time to sleep 😴: %d\n", pdata->time_to_sleep);
+    printf("Meals 🍝: %d\n", pdata->philo_meals);
+
+
     return(0);
 }
