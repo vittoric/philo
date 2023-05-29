@@ -39,6 +39,9 @@ void    take_fork(t_data *pdata, int n);
 void    st_print(char *str, t_data *pdata, int n);
 void    philo_eat(t_data *pdata, int num);
 void    philo_sleep(t_data *pdata, int num);
+void    pr_philo_death(long time, int idx);
+void    free_philo(t_data *pdata);
+void    ckeck_philo(t_data *pdata);
 
 
 //mutex
