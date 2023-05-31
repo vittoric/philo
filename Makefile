@@ -6,7 +6,7 @@
 #    By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 11:57:26 by vcodrean          #+#    #+#              #
-#    Updated: 2023/05/22 14:53:26 by vcodrean         ###   ########.fr        #
+#    Updated: 2023/05/31 17:26:35 by vcodrean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,12 @@ DARK_YELLOW =	\033[38;5;143m
 NAME = philo
 
 CC = gcc 
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address  
+#-g3 -fsanitize=thread 
+CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
-SRCS = src/philo.c src/utils.c src/time_utils.c
+SRCS = src/philo.c src/utils.c src/time_utils.c src/philo_init.c src/mutex_and_thread.c\
+		src/checkers.c src/routine.c src/actions.c
 INCS = inc/
  
 OBJS = $(SRCS:.c=.o)

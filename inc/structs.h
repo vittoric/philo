@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:05:41 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/25 15:51:34 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:56:51 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_data
 {
 	int				idphilo;
 	int				num_of_philo;
-	int				forks;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -36,7 +35,6 @@ typedef struct s_data
 	int				philo_meals;
 	int				status;
 	int				set_philo;
-	int				begin;
 	t_philosopher	*philo;
 	pthread_t		*thread;
 	pthread_mutex_t	*mutex;

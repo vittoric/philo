@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:52:46 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/26 16:44:56 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:25:14 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ void	to_usleep(int time_eat)
 
 	begin = get_time();
 	while (get_time() - begin < time_eat)
+	{
 		usleep(time_eat / 2);
+	}
 }

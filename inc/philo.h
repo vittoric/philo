@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:05:15 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/05/26 18:44:00 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/05/31 17:15:46 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int			ft_strlen(char *str);
 int         check_arg(int ac, char **av);
 
 //core functions
-int			simulation(t_data *pdata);
+//int	simulation(t_data *pdata);
 int			philo_init(t_data *pdata);
-void		*routine(void *d);
+void *routine(void *d);
 int         thread_init(t_data *pdata);
 
 //actions
@@ -42,6 +42,8 @@ void    philo_sleep(t_data *pdata, int num);
 void    pr_philo_death(long time, int idx);
 void    free_philo(t_data *pdata);
 void    ckeck_philo(t_data *pdata);
+
+
 
 
 //mutex
