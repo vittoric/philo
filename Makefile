@@ -6,7 +6,7 @@
 #    By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 11:57:26 by vcodrean          #+#    #+#              #
-#    Updated: 2023/05/31 17:26:35 by vcodrean         ###   ########.fr        #
+#    Updated: 2023/06/01 13:08:43 by vcodrean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ DARK_YELLOW =	\033[38;5;143m
 NAME = philo
 
 CC = gcc 
-#-g3 -fsanitize=thread 
+#-g -fsanitize=address 
 CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
@@ -45,13 +45,13 @@ OBJS = $(SRCS:.c=.o)
 
 %.o:%.c
 		@echo "${BLUE} ◎ $(BROWN)Compiling   ${MAGENTA}→   $(CYAN)$< $(DEF_COLOR)"
-		@$(CC) $(CFLAGS) -c  $< -o $(<:.c=.o) -I$(INCS)
+		@$(CC) $(CFLAGS) -c  $< -o $(<:.c=.o) -I$(INCS) 
 
 all: $(NAME) 
 
 $(NAME): $(OBJS)
 		@echo "\n$(GREEN) Created $(EXEC) ✓ $(DEF_COLOR)\n"
-		@$(CC) $(CFLAGS) $(OBJS)  -o $(NAME) -I$(INCS) -lpthread
+		@$(CC) $(CFLAGS) $(OBJS)  -o $(NAME) -I$(INCS) -lpthread 
 
 clean:
 		@echo "\n${BLUE} ◎ $(RED)All objects cleaned successfully ${BLUE}◎$(DEF_COLOR)\n"
