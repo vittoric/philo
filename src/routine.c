@@ -6,22 +6,22 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:41:08 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/06/01 13:19:38 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/06/05 16:56:46 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*routine(void *d)
+void	*routine(void *pdata)
 {
 	t_data	*data;
 	int		idx;
 
-	data = (t_data *)d;
-	idx = data->idphilo - 1;
+	data = (t_data *)pdata;
 	while (data->set_philo == 0)
-		usleep(500);
+		usleep(50);
 	pthread_mutex_lock(&data->mutex_idx);
+	idx = data->idphilo - 1;
 	data->idphilo++;
 	pthread_mutex_unlock(&data->mutex_idx);
 	if (idx % 2 == 0)

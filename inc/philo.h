@@ -6,7 +6,7 @@
 /*   By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:05:15 by vcodrean          #+#    #+#             */
-/*   Updated: 2023/06/01 13:24:06 by vcodrean         ###   ########.fr       */
+/*   Updated: 2023/06/05 16:58:47 by vcodrean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 int			main(int ac, char **av);
 int			simulation(t_data *pdata);
 int			philo_init(t_data *pdata);
-void		*routine(void *d);
+void		*routine(void *pdata);
 
 //actions
 void		st_print(char *str, t_data *pdata, int n);

@@ -6,7 +6,7 @@
 #    By: vcodrean <vcodrean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/18 11:57:26 by vcodrean          #+#    #+#              #
-#    Updated: 2023/06/01 13:08:43 by vcodrean         ###   ########.fr        #
+#    Updated: 2023/06/05 16:32:17 by vcodrean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ DARK_YELLOW =	\033[38;5;143m
 NAME = philo
 
 CC = gcc 
-#-g -fsanitize=address 
+FLAGS  = -g -fsanitize=thread
 CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
@@ -51,7 +51,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 		@echo "\n$(GREEN) Created $(EXEC) ✓ $(DEF_COLOR)\n"
-		@$(CC) $(CFLAGS) $(OBJS)  -o $(NAME) -I$(INCS) -lpthread 
+		@$(CC) $(CFLAGS) $(OBJS) $(FLAGSS)  -o $(NAME) -I$(INCS) -lpthread 
 
 clean:
 		@echo "\n${BLUE} ◎ $(RED)All objects cleaned successfully ${BLUE}◎$(DEF_COLOR)\n"
